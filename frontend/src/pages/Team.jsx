@@ -1,0 +1,1 @@
+export default function Team(){return(<div className="mx-auto max-w-7xl px-4 py-12"><h1 className="text-3xl font-bold">Team</h1><div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{["Aarav","Vivaan","Diya"].map(n=><div key={n} className="rounded-lg border p-4"><p className="font-medium">{n}</p><p className="text-sm text-gray-600">Engineer</p></div>)}</div></div>);}

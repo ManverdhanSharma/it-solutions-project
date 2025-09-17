@@ -1,0 +1,1 @@
+export default function Careers(){return(<div className="mx-auto max-w-7xl px-4 py-12"><h1 className="text-3xl font-bold">Careers</h1><p className="mt-2 text-gray-600">Open roles coming soon. Send resume at careers@example.com</p></div>);}
