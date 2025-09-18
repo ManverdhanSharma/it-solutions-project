@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-// Remove this line completely:
-// import logo from "../assets/new.png";
+// Remove the import - we'll use public folder instead
+// import logo from "../assets/New.png";
 
 // Import from the ThemeProvider file directly
 import { ThemeContext } from "../components/ThemeProvider";
@@ -77,7 +77,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           
-          {/* Custom Phenoxis Logo - No PNG dependency */}
+          {/* Logo - PNG from public folder with Custom P Fallback */}
           <Link 
             to="/" 
             className="flex-shrink-0 flex items-center group cursor-pointer"
@@ -89,8 +89,23 @@ export default function Navbar() {
             }}
           >
             <div className="flex items-center">
-              {/* Custom P Logo */}
-              <div className="relative w-14 h-12 bg-gray-900 dark:bg-gray-800 rounded border border-gray-600 dark:border-gray-500 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+              {/* PNG logo from public folder */}
+              <img 
+                className="h-12 w-auto transition-all duration-300 group-hover:scale-110 group-hover:brightness-125 group-hover:drop-shadow-lg filter" 
+                src="/New.png"  // ← References public/New.png (note the capital N)
+                alt="Phenoxis"
+                onError={(e) => {
+                  // Hide broken image and show custom fallback
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
+              />
+              
+              {/* Custom P Logo Fallback (hidden by default) */}
+              <div 
+                className="relative w-14 h-12 bg-gray-900 dark:bg-gray-800 rounded border border-gray-600 dark:border-gray-500 items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg"
+                style={{display: 'none'}}
+              >
                 {/* P Letter */}
                 <span className="text-2xl font-bold text-white">P</span>
                 
