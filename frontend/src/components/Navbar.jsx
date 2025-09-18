@@ -115,7 +115,7 @@ export default function Navbar() {
               
               {/* Phenoxis text with zero gap */}
               <span className="text-2xl font-bold text-blue-500 dark:text-blue-400 transition-all duration-300 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:scale-105 -ml-1">
-                henoxis
+                Phenoxis
               </span>
             </div>
           </Link>
@@ -131,7 +131,7 @@ export default function Navbar() {
                 />
               ))}
               
-              {/* Enhanced Theme Toggle Button */}
+              {/* Fixed Theme Toggle Button */}
               <button
                 onClick={toggleTheme}
                 className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 group hover:scale-110 hover:shadow-lg"
@@ -140,6 +140,7 @@ export default function Navbar() {
               >
                 <div className="relative w-5 h-5">
                   {theme === 'dark' ? (
+                    /* Sun icon for dark mode */
                     <svg 
                       className="w-5 h-5 text-yellow-500 transition-all duration-300 group-hover:rotate-12 group-hover:text-yellow-400 group-hover:drop-shadow-lg" 
                       fill="currentColor" 
@@ -152,13 +153,14 @@ export default function Navbar() {
                       />
                     </svg>
                   ) : (
+                    /* Moon icon for light mode - FIXED */
                     <svg 
                       className="w-5 h-5 text-gray-700 dark:text-gray-300 transition-all duration-300 group-hover:-rotate-12 group-hover:text-gray-900 dark:group-hover:text-gray-100 group-hover:drop-shadow-lg" 
                       fill="currentColor" 
                       viewBox="0 0 20 20"
                     >
                       <path 
-                        d="M17.293 13.293A8 8 0 716.707 2.707a8.001 8.001 0 1010.586 10.586z" 
+                        d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" 
                       />
                     </svg>
                   )}
