@@ -30,12 +30,12 @@ export default function Footer() {
           onSubmit={(e) => { e.preventDefault(); alert("Subscribed!"); }}
           className="space-y-3"
         >
-          <label className="block text-sm font-medium">Newsletter</label>
+          
           <div className="flex gap-2">
             <input
               type="email"
               required
-              placeholder="email@company.com"
+              placeholder="contact.phenoxis@gmail.com"
               className="input w-full text-sm"
             />
             <button className="btn btn-primary">Join</button>
@@ -43,7 +43,7 @@ export default function Footer() {
         </form>
       </div>
       <div className="divider border-t py-4 text-center text-xs text-muted">
-        © {new Date().getFullYear()} GenHelps. All rights reserved.
+        © {new Date().getFullYear()} Phenoxis. All rights reserved.
       </div>
     </footer>
   );

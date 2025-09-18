@@ -4,6 +4,10 @@ import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import ChatbotFloat from "./components/ChatbotFloat.jsx";
 
+// FIXED: Import ThemeProvider to wrap the entire app
+import ThemeProvider from "./components/ThemeProvider.jsx";
+
+// Lazy load pages for better performance
 const Home = lazy(() => import("./pages/Home.jsx"));
 const Services = lazy(() => import("./pages/Services.jsx"));
 const ServiceDetail = lazy(() => import("./pages/ServiceDetail.jsx"));
@@ -16,49 +20,53 @@ const Careers = lazy(() => import("./pages/Careers.jsx"));
 const Contact = lazy(() => import("./pages/Contact.jsx"));
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
 
+// Enhanced Loading Component
 function Loading() {
   return (
-    <div className="flex min-h-[40vh] items-center justify-center p-8">
-      <div className="flex items-center gap-3 text-muted">
-        <span className="h-3 w-3 animate-pulse rounded-full bg-gray-400 dark:bg-gray-600" />
-        <span className="h-3 w-3 animate-pulse rounded-full bg-gray-400 [animation-delay:120ms] dark:bg-gray-600" />
-        <span className="h-3 w-3 animate-pulse rounded-full bg-gray-400 [animation-delay:240ms] dark:bg-gray-600" />
-        <span className="ml-2">Loading…</span>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="text-center space-y-4">
+        <div className="relative">
+          <div className="w-12 h-12 mx-auto bg-blue-500 rounded-full animate-pulse"></div>
+          <div className="absolute inset-0 w-12 h-12 mx-auto border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+        <div className="space-y-2">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Phenoxis</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Loading...</p>
+        </div>
       </div>
     </div>
   );
 }
 
-export default function App() {
+function App() {
   return (
-    <div className="flex min-h-screen flex-col bg-app text-app">
-      <header className="sticky top-0 z-40 shell bg-surface/90 backdrop-blur border-b divider">
+    <ThemeProvider>
+      <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
         <Navbar />
-      </header>
-
-      <main className="flex-1">
-        <Suspense fallback={<Loading />}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/services/:slug" element={<ServiceDetail />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/team" element={<Team />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/careers" element={<Careers />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </main>
-
-      <footer className="shell border-t divider">
+        
+        <main className="flex-1">
+          <Suspense fallback={<Loading />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/services/:slug" element={<ServiceDetail />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/team" element={<Team />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/careers" element={<Careers />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </main>
+        
         <Footer />
-      </footer>
-
-      <ChatbotFloat />
-    </div>
+        <ChatbotFloat />
+      </div>
+    </ThemeProvider>
   );
 }
+
+export default App;
