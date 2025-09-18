@@ -1,222 +1,207 @@
 import React, { useState } from "react";
 
 export default function Contact() {
-  const [sent, setSent] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState("");
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    company: '',
+    message: ''
+  });
 
-  async function onSubmit(e) {
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    setErr("");
-
-    const form = new FormData(e.currentTarget);
-    const payload = {
-      name: form.get("name"),
-      email: form.get("email"),
-      company: form.get("company") || "",
-      message: form.get("message"),
-    };
-
-    try {
-      const res = await fetch("https://phenoxis-backend.onrender.com/api/contact", {
-
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-      if (!res.ok || !data.ok) {
-        throw new Error(data.error || "Failed to send message");
-      }
-
-      setSent(true);
-    } catch (e) {
-      setErr(e.message || "Something went wrong");
-    } finally {
-      setLoading(false);
+    
+    // ✅ Validate required fields
+    if (!formData.name || !formData.email || !formData.message) {
+      alert('Please fill in all required fields (Name, Email, Message)');
+      return;
     }
-  }
+
+    // ✅ Create email content
+    const subject = `New Inquiry from ${formData.name}`;
+    const body = `Hi Phenoxis Team,
+
+I'm interested in your services. Here are my details:
+
+Name: ${formData.name}
+Email: ${formData.email}${formData.company ? `\nCompany: ${formData.company}` : ''}
+
+Message:
+${formData.message}
+
+Please contact me to discuss further.
+
+Best regards,
+${formData.name}`;
+
+    // ✅ Open email client directly
+    const mailtoUrl = `mailto:contact.phenoxis@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoUrl;
+
+    // ✅ Show success message
+    alert('Email client opened! Please send the email to complete your inquiry.');
+    
+    // ✅ Reset form
+    setFormData({
+      name: '',
+      email: '',
+      company: '',
+      message: ''
+    });
+  };
 
   return (
-    <div className="min-h-screen bg-background text-app">
-      <section className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20" id="contact">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-3xl lg:text-4xl font-bold mb-4 text-app">Get In Touch</h1>
-          <p className="text-xl text-muted">
+          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
+            Contact Us
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Ready to start your project? Let's discuss how we can help bring your vision to life.
           </p>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="grid md:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <div>
-            {!sent ? (
-              <form className="space-y-4 bg-surface border border-border rounded-2xl p-6 shadow-sm" onSubmit={onSubmit}>
-                <h2 className="text-xl font-semibold mb-4 text-app">Send us a Message</h2>
-                
-                {err && (
-                  <p className="text-sm text-red-600 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3 rounded-lg">
-                    {err}
-                  </p>
-                )}
-
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <input
-                    name="name"
-                    required
-                    placeholder="Your Name"
-                    className="input w-full bg-card border-border text-app placeholder-muted focus:border-primary focus:ring-primary"
-                  />
-                  <input
-                    name="email"
-                    required
-                    type="email"
-                    placeholder="your.email@example.com"
-                    className="input w-full bg-card border-border text-app placeholder-muted focus:border-primary focus:ring-primary"
-                  />
-                </div>
-
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+              Send us a message
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Name *
+                </label>
                 <input
-                  name="company"
-                  placeholder="Company (optional)"
-                  className="input w-full bg-card border-border text-app placeholder-muted focus:border-primary focus:ring-primary"
+                  type="text"
+                  name="name"
+                  id="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  placeholder="Your full name"
                 />
+              </div>
 
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  placeholder="your.email@example.com"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="company" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Company
+                </label>
+                <input
+                  type="text"
+                  name="company"
+                  id="company"
+                  value={formData.company}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  placeholder="Your company name (optional)"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Message *
+                </label>
                 <textarea
                   name="message"
+                  id="message"
+                  rows={5}
+                  value={formData.message}
+                  onChange={handleInputChange}
                   required
-                  placeholder="Tell us about your project, timeline, and requirements..."
-                  className="input h-32 w-full resize-none bg-card border-border text-app placeholder-muted focus:border-primary focus:ring-primary"
-                />
-
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-xs text-muted">
-                    By sending, you agree to be contacted about this inquiry.
-                  </p>
-                  <button
-                    type="submit"
-                    className="btn btn-primary px-6 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={loading}
-                  >
-                    {loading ? "Sending..." : "Send Message"}
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <div className="bg-surface border border-border rounded-2xl p-6 shadow-sm">
-                <div className="text-center">
-                  <div className="text-4xl mb-4">✅</div>
-                  <h2 className="text-xl font-semibold mb-2 text-app">Message Sent Successfully!</h2>
-                  <p className="text-muted mb-4">
-                    Thanks for reaching out! We've received your message and will reply within 24 hours on business days.
-                  </p>
-                  <button 
-                    onClick={() => setSent(false)}
-                    className="text-primary hover:text-primary-hover font-medium transition-colors"
-                  >
-                    Send Another Message
-                  </button>
-                </div>
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  placeholder="Tell us about your project or inquiry..."
+                ></textarea>
               </div>
-            )}
+
+              <button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-md transition duration-200 flex items-center justify-center"
+              >
+                Send Message
+              </button>
+
+              <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                ✉️ This will open your email client with a pre-filled message
+              </p>
+            </form>
           </div>
 
-          {/* Contact Information */}
-          <div className="space-y-6">
-            {/* Direct Email */}
-            <div className="bg-surface border border-border rounded-2xl p-6 shadow-sm">
-              <div className="flex items-start space-x-4">
-                <div className="text-2xl">📧</div>
-                <div className="flex-1">
-                  <h3 className="font-semibold mb-2 text-app">Email Us Directly</h3>
-                  <p className="text-muted mb-3">
-                    Prefer email? Reach out to us directly and we'll respond promptly.
-                  </p>
-                  <a 
-                    href="mailto:contact.phenoxis@gmail.com" 
-                    className="text-primary hover:text-primary-hover font-medium text-lg transition-colors no-underline"
-                    style={{ textDecoration: 'none' }}
-                  >
-                    contact.phenoxis@gmail.com
-                  </a>
+          {/* Contact Info */}
+          <div className="space-y-8">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                Get in touch
+              </h2>
+              
+              <div className="space-y-6">
+                <div className="flex items-start">
+                  <svg className="w-6 h-6 text-blue-600 mt-1 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 7.89a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                  </svg>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">Email</h3>
+                    <p className="text-gray-600 dark:text-gray-400">contact.phenoxis@gmail.com</p>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Response Time */}
-            <div className="bg-surface border border-border rounded-2xl p-6 shadow-sm">
-              <div className="flex items-start space-x-4">
-                <div className="text-2xl">⏱️</div>
-                <div className="flex-1">
-                  <h3 className="font-semibold mb-2 text-app">Quick Response</h3>
-                  <p className="text-muted">
-                    We typically respond within <strong className="text-app">24 hours</strong> on business days. 
-                    For urgent inquiries, email us directly.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* What to Include */}
-            <div className="bg-surface border border-border rounded-2xl p-6 shadow-sm">
-              <div className="flex items-start space-x-4">
-                <div className="text-2xl">💡</div>
-                <div className="flex-1">
-                  <h3 className="font-semibold mb-2 text-app">What to Include</h3>
-                  <ul className="text-muted space-y-1 text-sm">
-                    <li className="flex items-start">
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full mr-2 mt-2 flex-shrink-0"></span>
-                      Project requirements and goals
-                    </li>
-                    <li className="flex items-start">
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full mr-2 mt-2 flex-shrink-0"></span>
-                      Preferred timeline and budget range
-                    </li>
-                    <li className="flex items-start">
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full mr-2 mt-2 flex-shrink-0"></span>
-                      Technology preferences (if any)
-                    </li>
-                    <li className="flex items-start">
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full mr-2 mt-2 flex-shrink-0"></span>
-                      Any existing designs or references
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            {/* Services */}
-            <div className="bg-surface border border-border rounded-2xl p-6 shadow-sm">
-              <div className="flex items-start space-x-4">
-                <div className="text-2xl">🚀</div>
-                <div className="flex-1">
-                  <h3 className="font-semibold mb-2 text-app">Our Services</h3>
-                  <div className="grid grid-cols-2 gap-2 text-sm text-muted">
-                    <span className="flex items-start">
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full mr-2 mt-2 flex-shrink-0"></span>
-                      Web Development
-                    </span>
-                    <span className="flex items-start">
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full mr-2 mt-2 flex-shrink-0"></span>
-                      AI Solutions
-                    </span>
-                    <span className="flex items-start">
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full mr-2 mt-2 flex-shrink-0"></span>
-                      UI/UX Design
-                    </span>
-                    <span className="flex items-start">
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full mr-2 mt-2 flex-shrink-0"></span>
-                      Digital Marketing
-                    </span>
+                <div className="flex items-start">
+                  <svg className="w-6 h-6 text-blue-600 mt-1 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">Response time</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Within 24 hours on business days</p>
                   </div>
                 </div>
               </div>
             </div>
+
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+              <h3 className="font-semibold text-blue-900 dark:text-blue-200 mb-2">
+                💡 Prefer direct email?
+              </h3>
+              <p className="text-blue-800 dark:text-blue-300 text-sm mb-3">
+                Reach out to us directly and we'll respond promptly.
+              </p>
+              <a
+                href="mailto:contact.phenoxis@gmail.com"
+                className="inline-flex items-center text-blue-600 hover:text-blue-500 font-medium"
+              >
+                contact.phenoxis@gmail.com
+                <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

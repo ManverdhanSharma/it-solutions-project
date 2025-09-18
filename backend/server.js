@@ -3,7 +3,6 @@ import express from "express";
 import cors from "cors";
 import fs from "fs/promises";
 import path from "path";
-import nodemailer from "nodemailer";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // ---------- App & Middleware ----------
@@ -11,12 +10,11 @@ const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-// 🔧 FIXED CORS Configuration - Added your frontend URL
+// ✅ FIXED CORS Configuration - Only your frontend URL
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://phenoxis-website.onrender.com",  // ✅ YOUR FRONTEND URL
-  "https://phenoxis.vercel.app"
+  "https://phenoxis-website.onrender.com"  // ✅ YOUR FRONTEND URL
 ];
 
 app.use(
@@ -180,22 +178,6 @@ async function askWithRetryAndFallback(contents) {
   }
 }
 
-// ---------- Email Setup ----------
-const createEmailTransporter = () => {
-  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    console.warn("⚠️ Email credentials not configured");
-    return null;
-  }
-  
-  return nodemailer.createTransporter({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
-  });
-};
-
 // ---------- Routes ----------
 app.get("/api/health", (_req, res) => {
   res.json({ 
@@ -204,8 +186,7 @@ app.get("/api/health", (_req, res) => {
     uptime: process.uptime(),
     environment: process.env.NODE_ENV || 'development',
     cors: allowedOrigins,
-    ai: !!process.env.GEMINI_API_KEY,
-    email: !!(process.env.EMAIL_USER && process.env.EMAIL_PASS)
+    ai: !!process.env.GEMINI_API_KEY
   });
 });
 
@@ -238,7 +219,7 @@ app.post("/api/chat", async (req, res) => {
   }
 });
 
-// ENHANCED Contact form route with EMAIL support
+// ✅ SIMPLIFIED Contact form route - NO EMAIL, NO SLACK
 app.post("/api/contact", async (req, res) => {
   try {
     const { name, email, company, message } = req.body || {};
@@ -260,7 +241,7 @@ app.post("/api/contact", async (req, res) => {
       });
     }
 
-    // Store to file
+    // ✅ Just store the message for your records
     const msgPath = path.resolve(process.cwd(), "messages.json");
     let existing = [];
     try {
@@ -280,116 +261,20 @@ app.post("/api/contact", async (req, res) => {
 
     existing.push(record);
     await fs.writeFile(msgPath, JSON.stringify(existing, null, 2));
-
-    // ---------- EMAIL SENDING ----------
-    let emailSent = false;
-    const transporter = createEmailTransporter();
     
-    if (transporter) {
-      try {
-        // Email to your team
-        const mailOptions = {
-          from: process.env.EMAIL_USER,
-          to: 'contact.phenoxis@gmail.com',
-          subject: `New Contact Form Submission from ${name}`,
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #3b82f6; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px;">
-                New Contact Form Submission
-              </h2>
-              
-              <div style="background: #f9fafb; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <p><strong style="color: #374151;">Name:</strong> ${name}</p>
-                <p><strong style="color: #374151;">Email:</strong> ${email}</p>
-                ${company ? `<p><strong style="color: #374151;">Company:</strong> ${company}</p>` : ''}
-                <p><strong style="color: #374151;">Message:</strong></p>
-                <div style="background: white; padding: 15px; border-left: 4px solid #3b82f6; margin-top: 10px;">
-                  ${message.replace(/\n/g, '<br>')}
-                </div>
-              </div>
-              
-              <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
-                <p style="color: #6b7280; font-size: 14px;">
-                  Sent from Phenoxis website - ${new Date().toLocaleString()}
-                </p>
-              </div>
-            </div>
-          `
-        };
-
-        // Auto-reply to user
-        const autoReply = {
-          from: process.env.EMAIL_USER,
-          to: email,
-          subject: 'Thank you for contacting Phenoxis!',
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #3b82f6;">Thank You, ${name}!</h2>
-              
-              <p>We've received your message and appreciate you reaching out to Phenoxis.</p>
-              
-              <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <p><strong>What happens next?</strong></p>
-                <ul style="color: #374151;">
-                  <li>We'll review your inquiry within 24 hours</li>
-                  <li>A team member will respond with next steps</li>
-                  <li>For urgent matters, email us directly</li>
-                </ul>
-              </div>
-              
-              <p>Best regards,<br><strong>The Phenoxis Team</strong></p>
-            </div>
-          `
-        };
-
-        // Send both emails
-        await Promise.all([
-          transporter.sendMail(mailOptions),
-          transporter.sendMail(autoReply)
-        ]);
-
-        emailSent = true;
-        console.log(`✅ Email sent successfully to ${email}`);
-
-      } catch (emailError) {
-        console.error("Email sending failed:", emailError);
-        // Don't fail the whole request if email fails
-      }
-    }
-
-    // ---------- Slack notify ----------
-    try {
-      const url = process.env.SLACK_WEBHOOK_URL;
-      if (url) {
-        const text =
-          `🔔 New website inquiry\n` +
-          `👤 Name: ${name}\n` +
-          `📧 Email: ${email}\n` +
-          `🏢 Company: ${company || "-"}\n\n` +
-          `💬 Message:\n${message}`;
-        await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text }),
-        });
-        console.log("✅ Slack notification sent");
-      }
-    } catch (e) {
-      console.warn("Slack notify failed:", e?.message || e);
-    }
+    console.log(`✅ Message stored from ${name} (${email})`);
 
     return res.json({ 
       ok: true, 
-      sent: emailSent, 
       stored: true,
-      message: emailSent ? 'Email sent successfully' : 'Message stored (email not configured)'
+      message: "Message received! Email client will open." 
     });
 
   } catch (error) {
-    console.error("Contact form error:", error);
+    console.error("❌ Contact form error:", error);
     return res.status(500).json({ 
       ok: false, 
-      error: "Failed to process contact form" 
+      error: "Server error. Please try again." 
     });
   }
 });
@@ -416,7 +301,6 @@ app.use((err, req, res, next) => {
 const port = Number(process.env.PORT) || 8081;
 app.listen(port, '0.0.0.0', () => {
   console.log(`🚀 Phenoxis Backend API running on port ${port}`);
-  console.log(`📧 Email configured: ${process.env.EMAIL_USER ? 'Yes' : 'No'}`);
   console.log(`🤖 AI configured: ${process.env.GEMINI_API_KEY ? 'Yes' : 'No'}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🔗 Allowed origins: ${allowedOrigins.join(', ')}`);
