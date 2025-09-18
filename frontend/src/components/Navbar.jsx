@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-// Keep the import but update the path if needed
-import logo from "../assets/new.png";
+// Remove this line completely:
+// import logo from "../assets/new.png";
 
 // Import from the ThemeProvider file directly
 import { ThemeContext } from "../components/ThemeProvider";
@@ -77,7 +77,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           
-          {/* Logo - Use PNG with Custom P Fallback */}
+          {/* Custom Phenoxis Logo - No PNG dependency */}
           <Link 
             to="/" 
             className="flex-shrink-0 flex items-center group cursor-pointer"
@@ -89,23 +89,8 @@ export default function Navbar() {
             }}
           >
             <div className="flex items-center">
-              {/* Try PNG logo first */}
-              <img 
-                className="h-12 w-auto transition-all duration-300 group-hover:scale-110 group-hover:brightness-125 group-hover:drop-shadow-lg filter" 
-                src={logo} 
-                alt="Phenoxis"
-                onError={(e) => {
-                  // Hide broken image and show custom fallback
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'block';
-                }}
-              />
-              
-              {/* Custom P Logo Fallback */}
-              <div 
-                className="relative w-14 h-12 bg-gray-900 dark:bg-gray-800 rounded border border-gray-600 dark:border-gray-500 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg"
-                style={{display: 'none'}}
-              >
+              {/* Custom P Logo */}
+              <div className="relative w-14 h-12 bg-gray-900 dark:bg-gray-800 rounded border border-gray-600 dark:border-gray-500 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
                 {/* P Letter */}
                 <span className="text-2xl font-bold text-white">P</span>
                 
@@ -113,7 +98,7 @@ export default function Navbar() {
                 <div className="absolute right-1 top-1 bottom-1 w-3 bg-blue-500 rounded-sm transition-all duration-300 group-hover:brightness-110"></div>
               </div>
               
-              {/* Phenoxis text with negative margin for zero gap */}
+              {/* Phenoxis text with zero gap */}
               <span className="text-2xl font-bold text-blue-500 dark:text-blue-400 transition-all duration-300 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:scale-105 -ml-1">
                 henoxis
               </span>
@@ -158,7 +143,7 @@ export default function Navbar() {
                       viewBox="0 0 20 20"
                     >
                       <path 
-                        d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" 
+                        d="M17.293 13.293A8 8 0 716.707 2.707a8.001 8.001 0 1010.586 10.586z" 
                       />
                     </svg>
                   )}
