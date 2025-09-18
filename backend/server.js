@@ -11,26 +11,29 @@ const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-// CORS allow-list from env (comma-separated) + production domains
-const allowedOrigins = (process.env.ALLOWED_ORIGIN || "http://localhost:5173")
-  .split(",")
-  .map((s) => s.trim())
-  .filter(Boolean)
-  .concat([
-    "https://phenoxis.vercel.app", // Add your frontend URL
-    "https://your-frontend-domain.com" // Replace with actual domain
-  ]);
+// 🔧 FIXED CORS Configuration - Added your frontend URL
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://phenoxis-website.onrender.com",  // ✅ YOUR FRONTEND URL
+  "https://phenoxis.vercel.app"
+];
 
 app.use(
   cors({
     origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    preflightContinue: false,
+    optionsSuccessStatus: 200
   })
 );
 
-// ---------- ROOT ROUTE (CRITICAL FIX) ----------
+// Handle preflight OPTIONS requests
+app.options('*', cors());
+
+// ---------- ROOT ROUTE ----------
 app.get("/", (req, res) => {
   res.json({ 
     message: "Phenoxis Backend API is running!", 
@@ -41,15 +44,16 @@ app.get("/", (req, res) => {
       contact: "/api/contact",
       health: "/api/health"
     },
+    cors: allowedOrigins,
     version: "1.0.0"
   });
 });
 
 // ---------- AI Setup ----------
 if (!process.env.GEMINI_API_KEY) {
-  console.warn("Warning: GEMINI_API_KEY is not set in .env");
+  console.warn("⚠️ Warning: GEMINI_API_KEY is not set in environment variables");
 }
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null;
 const PRIMARY_MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash-exp";
 const FALLBACK_MODEL = "gemini-1.5-flash";
 
@@ -198,18 +202,29 @@ app.get("/api/health", (_req, res) => {
     ok: true,
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    cors: allowedOrigins,
+    ai: !!process.env.GEMINI_API_KEY,
+    email: !!(process.env.EMAIL_USER && process.env.EMAIL_PASS)
   });
 });
 
 app.post("/api/chat", async (req, res) => {
   try {
+    if (!genAI) {
+      return res.status(503).json({ 
+        error: "AI service not configured. Please contact support." 
+      });
+    }
+
     const { messages } = req.body || {};
     if (!Array.isArray(messages) || messages.length === 0) {
       return res.status(400).json({ error: "messages[] required" });
     }
+    
     const contents = toContents(messages);
     const { text, modelId, meta } = await askWithRetryAndFallback(contents);
+    
     return res.json({
       message: { role: "assistant", content: text },
       model: modelId,
@@ -245,7 +260,7 @@ app.post("/api/contact", async (req, res) => {
       });
     }
 
-    // Store to file (your existing logic)
+    // Store to file
     const msgPath = path.resolve(process.cwd(), "messages.json");
     let existing = [];
     try {
@@ -342,7 +357,7 @@ app.post("/api/contact", async (req, res) => {
       }
     }
 
-    // ---------- Slack notify (your existing logic) ----------
+    // ---------- Slack notify ----------
     try {
       const url = process.env.SLACK_WEBHOOK_URL;
       if (url) {
