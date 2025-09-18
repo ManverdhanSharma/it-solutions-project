@@ -46,7 +46,8 @@ export default function ChatbotFloat() {
       
       history.push({ role: "user", content: question });
 
-      const resp = await fetch("/api/chat", {
+      const resp = await fetch("https://phenoxis-backend.onrender.com/api/chat", {
+
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: history })
