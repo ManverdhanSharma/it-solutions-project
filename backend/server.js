@@ -10,11 +10,11 @@ const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-// ✅ FIXED CORS Configuration - Only your frontend URL
+// ✅ FIXED CORS Configuration
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://phenoxis-website.onrender.com"  // ✅ YOUR FRONTEND URL
+  "https://phenoxis-website.onrender.com"
 ];
 
 app.use(
@@ -28,7 +28,6 @@ app.use(
   })
 );
 
-// Handle preflight OPTIONS requests
 app.options('*', cors());
 
 // ---------- ROOT ROUTE ----------
@@ -59,60 +58,158 @@ function getModel(id) {
   return genAI.getGenerativeModel({ model: id });
 }
 
-// Load services document
-let docContent = "";
-const docPath = path.resolve(process.cwd(), "docs/services-info.txt");
+// 🧠 COMPREHENSIVE COMPANY KNOWLEDGE BASE
+const COMPANY_KNOWLEDGE = `
+=== PHENOXIS IT SOLUTIONS - COMPLETE COMPANY INFORMATION ===
 
-async function loadDocument() {
-  try {
-    docContent = await fs.readFile(docPath, "utf-8");
-    console.log("✅ Document loaded successfully");
-  } catch (e) {
-    console.warn("⚠️ Document not found, using default content");
-    docContent = `
-Phenoxis IT Solutions Services:
+🏢 COMPANY OVERVIEW:
+- Company Name: Phenoxis IT Solutions
+- Founded: 2024
+- Location: India (Chennai, Tamil Nadu)
+- Company Type: IT Services & Digital Solutions Provider
+- Website: https://phenoxis-website.onrender.com
+- Email: contact.phenoxis@gmail.com
+- Specialization: AI-driven digital transformation
 
-1. Web Development
-- Full-stack web applications
-- React, Node.js, MongoDB
-- Responsive design
-- E-commerce solutions
+🎯 MISSION & VISION:
+Mission: To empower businesses with cutting-edge AI solutions and digital technologies that drive innovation, efficiency, and growth.
+Vision: To be the leading AI and digital solutions provider, transforming how businesses operate in the digital age.
 
-2. AI Solutions & Automation
-- Custom AI integrations
-- Chatbot development
-- Process automation
-- RAG systems
+📋 CORE SERVICES:
 
-3. UI/UX Design
-- User-centered design
-- Prototyping
-- Design systems
-- Mobile app design
+1. 🌐 WEB DEVELOPMENT
+   - Full-stack web applications (React, Node.js, MongoDB, Express)
+   - E-commerce platforms and online stores
+   - Progressive Web Apps (PWAs)
+   - Responsive design for all devices
+   - Custom web portals and dashboards
+   - API development and integration
+   - Performance optimization
+   - SEO-friendly development
+   - Pricing: Starting from ₹25,000 for basic websites
 
-4. Digital Marketing
-- SEO optimization
-- Social media marketing
-- Content strategy
-- Analytics and reporting
+2. 🤖 AI SOLUTIONS & AUTOMATION
+   - Custom AI chatbots and virtual assistants
+   - RAG (Retrieval-Augmented Generation) systems
+   - Process automation and workflow optimization
+   - AI-powered data analysis and insights
+   - Machine learning model development
+   - Natural language processing solutions
+   - Computer vision applications
+   - AI integration into existing systems
+   - Pricing: Custom quotes based on complexity
 
-Contact us at contact.phenoxis@gmail.com for quotes and consultations.
-    `.trim();
-  }
-}
+3. 🎨 UI/UX DESIGN
+   - User-centered design approach
+   - Wireframing and prototyping
+   - Design systems and style guides
+   - Mobile app design (iOS/Android)
+   - Web application interfaces
+   - User research and testing
+   - Accessibility-focused design
+   - Brand identity and visual design
+   - Pricing: Starting from ₹15,000 for basic designs
 
-// Initialize document loading
-loadDocument().catch(console.error);
+4. 📈 DIGITAL MARKETING
+   - Search Engine Optimization (SEO)
+   - Social media marketing and management
+   - Content strategy and creation
+   - Google Ads and Facebook Ads management
+   - Email marketing campaigns
+   - Analytics and performance reporting
+   - Conversion rate optimization
+   - Brand awareness campaigns
+   - Pricing: Starting from ₹10,000/month
+
+🔧 TECHNOLOGIES WE USE:
+Frontend: React, Vue.js, Angular, HTML5, CSS3, JavaScript, TypeScript
+Backend: Node.js, Python, Express.js, FastAPI, REST APIs, GraphQL
+Databases: MongoDB, PostgreSQL, MySQL, Firebase
+AI/ML: Google Gemini, OpenAI, TensorFlow, PyTorch, Scikit-learn
+Cloud: AWS, Google Cloud, Firebase, Heroku, Render
+Design: Figma, Adobe XD, Sketch, Canva
+Marketing: Google Analytics, SEMrush, Mailchimp, Buffer
+
+👥 TARGET CLIENTS:
+- Startups and small businesses
+- E-commerce companies
+- Educational institutions
+- Healthcare providers
+- Manufacturing companies
+- Service-based businesses
+- Non-profit organizations
+
+⭐ KEY DIFFERENTIATORS:
+- AI-first approach to all solutions
+- Rapid prototyping and development
+- 24/7 support and maintenance
+- Affordable pricing for startups
+- End-to-end digital transformation
+- Data-driven decision making
+- Modern tech stack and best practices
+
+📞 CONTACT & PROCESS:
+- Initial consultation: FREE (30 minutes)
+- Response time: Within 24 hours
+- Project timeline: 2-12 weeks depending on scope
+- Payment terms: 50% advance, 50% on completion
+- Maintenance: Available with all projects
+- Revisions: Included in project scope
+
+🏆 RECENT PROJECTS:
+- AI-powered e-commerce platform for fashion retailer
+- Custom CRM system with automation
+- Educational portal with student management
+- Restaurant ordering system with AI recommendations
+- Corporate website with advanced analytics
+
+💼 PACKAGE OPTIONS:
+Starter Package (₹50,000): Basic website + SEO + 3 months support
+Growth Package (₹1,50,000): Advanced website + AI features + marketing + 6 months support
+Enterprise Package (₹3,00,000+): Custom solutions + full digital transformation + 1 year support
+
+📈 SUCCESS METRICS:
+- 50+ projects completed
+- 95% client satisfaction rate
+- Average 40% improvement in client digital presence
+- 24-hour average response time
+- 99.9% uptime for hosted solutions
+
+Contact us at contact.phenoxis@gmail.com for detailed quotes and consultations.
+We're always ready to discuss your project and provide customized solutions!
+`;
 
 const SYSTEM_PROMPT = `
-You are Phenoxis IT Solutions' AI assistant.
-Answer only based on our services: Web Development, AI Solutions, UI/UX Design, and Digital Marketing.
+You are PHENOXIS AI ASSISTANT - a helpful, friendly, and knowledgeable AI representative for Phenoxis IT Solutions.
 
-Services Info:
-${docContent}
+PERSONALITY TRAITS:
+- Professional yet approachable
+- Enthusiastic about technology and AI
+- Solution-oriented and consultative
+- Clear and concise in communication
+- Always helpful and supportive
 
-Be concise, friendly, and professional. If asked about unrelated topics, politely redirect to our services.
-Always suggest contacting us for detailed quotes and consultations.
+YOUR KNOWLEDGE BASE:
+${COMPANY_KNOWLEDGE}
+
+CONVERSATION RULES:
+1. Always introduce yourself as "Phenoxis AI Assistant" on first interaction
+2. Focus on Phenoxis services: Web Development, AI Solutions, UI/UX Design, Digital Marketing
+3. Provide specific pricing when asked (use the ranges mentioned above)
+4. Always suggest contacting contact.phenoxis@gmail.com for detailed quotes
+5. If asked about unrelated topics, politely redirect to Phenoxis services
+6. Be enthusiastic about AI and modern technology solutions
+7. Offer to help with project planning and consultation
+8. Mention our FREE 30-minute consultation when relevant
+9. Use emojis sparingly but effectively
+10. Keep responses concise but informative (max 150 words unless detailed explanation needed)
+
+SAMPLE RESPONSES STYLE:
+- "Hi! I'm the Phenoxis AI Assistant 🤖 How can I help you with your digital transformation needs today?"
+- "Great question! For web development, we specialize in React-based solutions starting from ₹25,000..."
+- "I'd love to help you explore AI automation options! Let me share some possibilities..."
+
+Remember: You represent a cutting-edge AI and web development company. Be confident, knowledgeable, and always ready to help!
 `.trim();
 
 function toContents(messages) {
@@ -219,12 +316,11 @@ app.post("/api/chat", async (req, res) => {
   }
 });
 
-// ✅ SIMPLIFIED Contact form route - NO EMAIL, NO SLACK
+// ✅ SIMPLIFIED Contact form route
 app.post("/api/contact", async (req, res) => {
   try {
     const { name, email, company, message } = req.body || {};
     
-    // Validation
     if (!name || !email || !message) {
       return res.status(400).json({ 
         ok: false, 
@@ -232,7 +328,6 @@ app.post("/api/contact", async (req, res) => {
       });
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return res.status(400).json({
@@ -241,7 +336,6 @@ app.post("/api/contact", async (req, res) => {
       });
     }
 
-    // ✅ Just store the message for your records
     const msgPath = path.resolve(process.cwd(), "messages.json");
     let existing = [];
     try {
