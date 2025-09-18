@@ -11,11 +11,15 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 // ✅ FIXED CORS Configuration
+// ✅ CORS for both old and new domains
 const allowedOrigins = [
   "http://localhost:5173",
-  "http://localhost:3000",
-  "https://phenoxis-website.onrender.com"
+  "http://localhost:3000", 
+  "https://phenoxis.com",                      // ✅ NEW DOMAIN
+  "https://www.phenoxis.com",                  // ✅ NEW DOMAIN  
+  "https://phenoxis-backend.onrender.com"      // Keep for now
 ];
+
 
 app.use(
   cors({
