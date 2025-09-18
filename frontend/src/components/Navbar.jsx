@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
+// Keep the import but update the path if needed
 import logo from "../assets/new.png";
 
 // Import from the ThemeProvider file directly
@@ -76,49 +77,46 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           
-          {/* Enhanced Logo with hover effects and smooth scroll to top */}
+          {/* Logo - Use PNG with Custom P Fallback */}
           <Link 
             to="/" 
             className="flex-shrink-0 flex items-center group cursor-pointer"
             onClick={(e) => {
-              // If already on homepage, smooth scroll to top
               if (window.location.pathname === '/') {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }
             }}
           >
-            <div className="flex items-center gap-0">
-
-
-              {/* Logo with enhanced hover effects */}
+            <div className="flex items-center">
+              {/* Try PNG logo first */}
               <img 
-                className="h-10 w-auto transition-all duration-300 group-hover:scale-110 group-hover:brightness-125 group-hover:drop-shadow-lg filter" 
+                className="h-12 w-auto transition-all duration-300 group-hover:scale-110 group-hover:brightness-125 group-hover:drop-shadow-lg filter" 
                 src={logo} 
                 alt="Phenoxis"
                 onError={(e) => {
-                  // Hide broken image and show fallback
+                  // Hide broken image and show custom fallback
                   e.target.style.display = 'none';
                   e.target.nextSibling.style.display = 'block';
                 }}
               />
               
-              {/* Fallback logo with hover effects */}
+              {/* Custom P Logo Fallback */}
               <div 
-                className="w-10 h-10 bg-gray-800 dark:bg-gray-700 rounded border-2 border-gray-600 dark:border-gray-500 flex items-center justify-center relative overflow-hidden transition-all duration-300 group-hover:brightness-125 group-hover:shadow-lg group-hover:scale-110"
+                className="relative w-14 h-12 bg-gray-900 dark:bg-gray-800 rounded border border-gray-600 dark:border-gray-500 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg"
                 style={{display: 'none'}}
               >
-                <span className="text-lg font-bold text-white transition-all duration-300 group-hover:text-blue-200">P</span>
-                <div className="absolute right-0 top-0 w-3 h-full bg-blue-500 transition-all duration-300 group-hover:bg-blue-400 group-hover:w-4"></div>
+                {/* P Letter */}
+                <span className="text-2xl font-bold text-white">P</span>
+                
+                {/* Blue accent bar */}
+                <div className="absolute right-1 top-1 bottom-1 w-3 bg-blue-500 rounded-sm transition-all duration-300 group-hover:brightness-110"></div>
               </div>
               
-              {/* Phenoxis text with enhanced hover effects and glow */}
-{/* Phenoxis text with clean hover effects - NO blur */}
-<span className="text-2xl font-bold text-blue-500 dark:text-blue-400 transition-all duration-300 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:scale-105 group-hover:brightness-110">
-  Phenoxis
-</span>
-
-
+              {/* Phenoxis text with negative margin for zero gap */}
+              <span className="text-2xl font-bold text-blue-500 dark:text-blue-400 transition-all duration-300 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:scale-105 -ml-1">
+                henoxis
+              </span>
             </div>
           </Link>
 
