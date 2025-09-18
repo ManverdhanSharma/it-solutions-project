@@ -4,5 +4,8 @@
   "scripts": {
     "build": "cd frontend && npm run build",
     "start": "cd frontend && npm run preview"
+  },
+  "dependencies": {
+    "react-router-dom": "^6.30.1"
   }
 }

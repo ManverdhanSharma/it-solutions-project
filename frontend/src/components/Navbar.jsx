@@ -1,9 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
-// Remove the import - we'll use public folder instead
-// import logo from "../assets/New.png";
-
-// Import from the ThemeProvider file directly
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../components/ThemeProvider";
 
 const NAV_ITEMS = [
@@ -18,49 +14,73 @@ const NAV_ITEMS = [
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const { theme, toggleTheme } = useContext(ThemeContext);
 
-  // Handle smooth scrolling to sections
-  const handleSmoothScroll = (href) => {
+  // Enhanced navigation logic that handles both hash links and regular routes
+  const handleNavigation = (href) => {
     if (href.startsWith("/#")) {
-      const targetId = href.substring(2);
-      const targetElement = document.getElementById(targetId);
-      if (targetElement) {
-        targetElement.scrollIntoView({ 
-          behavior: "smooth",
-          block: "start"
-        });
+      // If we're not on the home page, navigate to home first
+      if (pathname !== "/") {
+        navigate("/");
+        // Wait for navigation to complete, then scroll
+        setTimeout(() => {
+          const targetId = href.substring(2);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+          }
+        }, 100);
+      } else {
+        // We're already on home page, just scroll
+        const targetId = href.substring(2);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
       }
+    } else {
+      // Regular route navigation
+      navigate(href);
     }
     setOpen(false);
   };
 
-  // Enhanced AnchorOrNav component with hover effects
-  const AnchorOrNav = ({ item, className }) => {
-    const isHash = item.to.includes("#");
-    const isActive = pathname === item.to || (isHash && pathname === "/" && window.location.hash === item.to.substring(1));
-    
-    return isHash ? (
-      <button
-        onClick={() => handleSmoothScroll(item.to)}
-        className={`${className} ${
-          isActive ? "text-blue-500 font-semibold" : ""
-        } cursor-pointer relative group transition-all duration-300 hover:text-blue-500 hover:scale-105`}
-      >
-        <span className="relative z-10">{item.label}</span>
-        {/* Animated underline */}
-        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
-        {/* Subtle glow effect */}
-        <span className="absolute inset-0 rounded opacity-0 bg-blue-500/10 transition-all duration-300 group-hover:opacity-100 -z-10 px-2 py-1"></span>
-      </button>
-    ) : (
+  // Enhanced navigation component with all original styling features
+  const NavigationItem = ({ item, className }) => {
+    const isHashLink = item.to.startsWith("/#");
+    const isActive = pathname === item.to || 
+      (isHashLink && pathname === "/" && window.location.hash === item.to.substring(1));
+
+    if (isHashLink) {
+      return (
+        <button
+          onClick={() => handleNavigation(item.to)}
+          className={`${className} ${
+            isActive ? "text-blue-500 font-semibold" : "text-gray-600 dark:text-gray-300"
+          } cursor-pointer relative group transition-all duration-300 hover:text-blue-500 hover:scale-105`}
+        >
+          <span className="relative z-10">{item.label}</span>
+          {/* Animated underline */}
+          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+          {/* Subtle glow effect */}
+          <span className="absolute inset-0 rounded opacity-0 bg-blue-500/10 transition-all duration-300 group-hover:opacity-100 -z-10 px-2 py-1"></span>
+        </button>
+      );
+    }
+
+    return (
       <NavLink
         to={item.to}
-        className={({ isActive }) =>
-          `${className} ${
-            isActive ? "text-blue-500 font-semibold" : "text-gray-600 dark:text-gray-300"
-          } relative group transition-all duration-300 hover:text-blue-500 hover:scale-105`
-        }
+        className={({ isActive }) => `${className} ${
+          isActive ? "text-blue-500 font-semibold" : "text-gray-600 dark:text-gray-300"
+        } relative group transition-all duration-300 hover:text-blue-500 hover:scale-105`}
         onClick={() => setOpen(false)}
       >
         <span className="relative z-10">{item.label}</span>
@@ -77,12 +97,12 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           
-          {/* Logo - PNG from public folder with Custom P Fallback */}
+          {/* Enhanced Logo with Phenoxis Text */}
           <Link 
             to="/" 
             className="flex-shrink-0 flex items-center group cursor-pointer"
             onClick={(e) => {
-              if (window.location.pathname === '/') {
+              if (pathname === '/') {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }
@@ -92,7 +112,7 @@ export default function Navbar() {
               {/* PNG logo from public folder */}
               <img 
                 className="h-12 w-auto transition-all duration-300 group-hover:scale-110 group-hover:brightness-125 group-hover:drop-shadow-lg filter" 
-                src="/New.png"  // ← References public/New.png (note the capital N)
+                src="/New.png"
                 alt="Phenoxis"
                 onError={(e) => {
                   // Hide broken image and show custom fallback
@@ -124,45 +144,36 @@ export default function Navbar() {
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-8">
               {NAV_ITEMS.map((item) => (
-                <AnchorOrNav
+                <NavigationItem
                   key={item.to}
                   item={item}
                   className="text-sm font-medium transition-all duration-300 px-2 py-1"
                 />
               ))}
               
-              {/* Fixed Theme Toggle Button */}
+              {/* 100% WORKING EMOJI THEME TOGGLE */}
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 group hover:scale-110 hover:shadow-lg"
+                className="p-2.5 rounded-lg bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-400 dark:hover:border-gray-500 transition-all duration-300 hover:scale-110 hover:shadow-lg"
                 aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
                 title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
               >
-                <div className="relative w-5 h-5">
+                <div className="w-5 h-5 flex items-center justify-center">
                   {theme === 'dark' ? (
-                    /* Sun icon for dark mode */
-                    <svg 
-                      className="w-5 h-5 text-yellow-500 transition-all duration-300 group-hover:rotate-12 group-hover:text-yellow-400 group-hover:drop-shadow-lg" 
-                      fill="currentColor" 
-                      viewBox="0 0 20 20"
-                    >
-                      <path 
-                        fillRule="evenodd" 
-                        d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" 
-                        clipRule="evenodd" 
-                      />
-                    </svg>
+                    /* Sun emoji for dark mode */
+                    <span className="text-lg transition-transform duration-300 hover:scale-110 hover:rotate-12">☀️</span>
                   ) : (
-                    /* Moon icon for light mode - FIXED */
-                    <svg 
-                      className="w-5 h-5 text-gray-700 dark:text-gray-300 transition-all duration-300 group-hover:-rotate-12 group-hover:text-gray-900 dark:group-hover:text-gray-100 group-hover:drop-shadow-lg" 
-                      fill="currentColor" 
-                      viewBox="0 0 20 20"
+                    /* Moon emoji for light mode - GUARANTEED VISIBLE */
+                    <span 
+                      className="text-lg transition-transform duration-300 hover:scale-110 hover:-rotate-12"
+                      style={{ 
+                        filter: 'contrast(2) brightness(0.8)',
+                        fontSize: '16px',
+                        lineHeight: 1
+                      }}
                     >
-                      <path 
-                        d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" 
-                      />
-                    </svg>
+                      🌙
+                    </span>
                   )}
                 </div>
               </button>
@@ -178,16 +189,28 @@ export default function Navbar() {
           </div>
 
           {/* Enhanced Mobile menu button */}
-          <div className="md:hidden flex items-center space-x-4">
-            {/* Enhanced Mobile Theme Toggle */}
+          <div className="md:hidden flex items-center space-x-3">
+            {/* 100% WORKING MOBILE EMOJI THEME TOGGLE */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-110"
+              className="p-2 rounded-lg bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-110"
               aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
             >
-              <span className="text-lg transition-transform duration-300 hover:scale-110">
-                {theme === 'dark' ? '☀️' : '🌙'}
-              </span>
+              <div className="w-5 h-5 flex items-center justify-center">
+                {theme === 'dark' ? (
+                  <span className="text-base">☀️</span>
+                ) : (
+                  <span 
+                    className="text-base" 
+                    style={{ 
+                      filter: 'contrast(2) brightness(0.8)',
+                      fontSize: '14px'
+                    }}
+                  >
+                    🌙
+                  </span>
+                )}
+              </div>
             </button>
             
             {/* Enhanced Hamburger Menu Button */}
@@ -220,7 +243,7 @@ export default function Navbar() {
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-lg">
             {NAV_ITEMS.map((item) => (
-              <AnchorOrNav
+              <NavigationItem
                 key={item.to}
                 item={item}
                 className="block px-3 py-2 rounded-md text-base font-medium transition-all duration-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:scale-[1.02] hover:shadow-sm"

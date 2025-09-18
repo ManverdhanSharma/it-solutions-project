@@ -166,11 +166,11 @@ export default function Careers() {
     : openPositions.filter(job => job.category === selectedCategory);
 
   return (
-    <div className="min-h-screen py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-background text-app">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-3xl lg:text-4xl font-bold mb-6">Join Our Team</h1>
+          <h1 className="text-3xl lg:text-4xl font-bold mb-6 text-app">Join Our Team</h1>
           <p className="text-xl text-muted max-w-3xl mx-auto leading-relaxed">
             We're building the future of IT solutions. Join us and be part of a team that's 
             passionate about technology, innovation, and making a real impact.
@@ -178,9 +178,9 @@ export default function Careers() {
         </div>
 
         {/* Company Culture */}
-        <div className="bg-surface rounded-2xl p-8 mb-16">
+        <div className="bg-surface border border-border rounded-2xl p-8 mb-16 shadow-sm">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold mb-4">Why Work With Us?</h2>
+            <h2 className="text-2xl font-bold mb-4 text-app">Why Work With Us?</h2>
             <p className="text-muted">
               At Phenoxis, we believe in empowering our team members to do their best work.
             </p>
@@ -206,10 +206,10 @@ export default function Careers() {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all border ${
                   selectedCategory === category
-                    ? 'bg-primary text-white shadow-lg'
-                    : 'bg-surface text-muted hover:bg-card hover:text-app'
+                    ? 'bg-primary text-white border-primary shadow-lg'
+                    : 'bg-surface text-muted border-border hover:bg-card hover:text-app hover:border-primary/30'
                 }`}
               >
                 {category}
@@ -221,7 +221,7 @@ export default function Careers() {
         {/* Open Positions */}
         <div className="space-y-6 mb-16">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold mb-2">Open Positions</h2>
+            <h2 className="text-2xl font-bold mb-2 text-app">Open Positions</h2>
             <p className="text-muted">
               {filteredJobs.length} position{filteredJobs.length !== 1 ? 's' : ''} available
               {selectedCategory !== "All" && ` in ${selectedCategory}`}
@@ -229,9 +229,9 @@ export default function Careers() {
           </div>
 
           {filteredJobs.length === 0 ? (
-            <div className="text-center py-12 bg-surface rounded-2xl">
+            <div className="text-center py-12 bg-surface border border-border rounded-2xl">
               <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-xl font-semibold mb-2">No positions found</h3>
+              <h3 className="text-xl font-semibold mb-2 text-app">No positions found</h3>
               <p className="text-muted">
                 No open positions in {selectedCategory} category right now. 
                 Check back later or browse all positions.
@@ -245,12 +245,12 @@ export default function Careers() {
             </div>
           ) : (
             filteredJobs.map((job, i) => (
-              <div key={i} className="card p-6 hover:shadow-lg transition-all duration-300">
+              <div key={i} className="bg-surface border border-border rounded-2xl p-6 hover:shadow-lg hover:border-primary/30 transition-all duration-300">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                   <div className="flex-1 space-y-4">
                     {/* Job Header */}
                     <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                      <div>
+                      <div className="flex-1">
                         <h3 className="text-xl font-bold text-app hover:text-primary transition-colors">
                           {job.title}
                         </h3>
@@ -270,12 +270,12 @@ export default function Careers() {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        <span className={`px-3 py-1 rounded-full text-xs font-medium border ${
                           job.type === 'Full-time' 
-                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                            ? 'bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-300 dark:border-green-800'
                             : job.type === 'Internship'
-                            ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                            : 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200'
+                            ? 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-800'
+                            : 'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-900/20 dark:text-orange-300 dark:border-orange-800'
                         }`}>
                           {job.type}
                         </span>
@@ -322,10 +322,11 @@ export default function Careers() {
                   </div>
 
                   {/* Apply Button */}
-                  <div className="lg:ml-6">
+                  <div className="lg:ml-6 flex-shrink-0">
                     <a
-                      href={`mailto:careers@phenoxis.com?subject=Application for ${job.title}&body=Hi Phenoxis Team,%0D%0A%0D%0AI'm interested in applying for the ${job.title} position. Please find my resume attached.%0D%0A%0D%0AThank you for your consideration.`}
-                      className="btn btn-primary px-8 py-3 w-full sm:w-auto"
+                      href={`mailto:careers.phenoxis@gmail.com?subject=${encodeURIComponent(`Application for ${job.title}`)}&body=${encodeURIComponent(`Hi Phenoxis Team,\n\nI'm interested in applying for the ${job.title} position. Please find my resume attached.\n\nThank you for your consideration.\n\nBest regards`)}`}
+                      className="btn btn-primary px-8 py-3 w-full sm:w-auto inline-block text-center no-underline"
+                      style={{ textDecoration: 'none' }}
                     >
                       Apply Now
                     </a>
@@ -337,50 +338,51 @@ export default function Careers() {
         </div>
 
         {/* Application Process */}
-        <div className="bg-gradient-to-r from-primary/5 to-primary-soft/5 rounded-2xl p-8 text-center">
-          <h3 className="text-2xl font-bold mb-6">Application Process</h3>
+        <div className="bg-gradient-to-r from-primary/5 to-primary/10 border border-primary/20 rounded-2xl p-8 text-center mb-16">
+          <h3 className="text-2xl font-bold mb-6 text-app">Application Process</h3>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="space-y-3">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto">
+              <div className="w-12 h-12 bg-primary/10 border border-primary/20 rounded-lg flex items-center justify-center mx-auto">
                 <span className="text-xl font-bold text-primary">1</span>
               </div>
-              <h4 className="font-semibold">Apply</h4>
+              <h4 className="font-semibold text-app">Apply</h4>
               <p className="text-sm text-muted">Send us your resume and cover letter</p>
             </div>
             <div className="space-y-3">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto">
+              <div className="w-12 h-12 bg-primary/10 border border-primary/20 rounded-lg flex items-center justify-center mx-auto">
                 <span className="text-xl font-bold text-primary">2</span>
               </div>
-              <h4 className="font-semibold">Review</h4>
+              <h4 className="font-semibold text-app">Review</h4>
               <p className="text-sm text-muted">We'll review your application within 5 days</p>
             </div>
             <div className="space-y-3">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto">
+              <div className="w-12 h-12 bg-primary/10 border border-primary/20 rounded-lg flex items-center justify-center mx-auto">
                 <span className="text-xl font-bold text-primary">3</span>
               </div>
-              <h4 className="font-semibold">Interview</h4>
+              <h4 className="font-semibold text-app">Interview</h4>
               <p className="text-sm text-muted">Technical and cultural fit interviews</p>
             </div>
             <div className="space-y-3">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto">
+              <div className="w-12 h-12 bg-primary/10 border border-primary/20 rounded-lg flex items-center justify-center mx-auto">
                 <span className="text-xl font-bold text-primary">4</span>
               </div>
-              <h4 className="font-semibold">Welcome</h4>
+              <h4 className="font-semibold text-app">Welcome</h4>
               <p className="text-sm text-muted">Join the team and start your journey</p>
             </div>
           </div>
         </div>
 
         {/* Contact Section */}
-        <div className="text-center mt-16">
-          <h3 className="text-xl font-semibold mb-4">Don't see a perfect fit?</h3>
+        <div className="text-center">
+          <h3 className="text-xl font-semibold mb-4 text-app">Don't see a perfect fit?</h3>
           <p className="text-muted mb-6">
             We're always interested in hearing from talented individuals. 
             Send us your resume and let us know what you're passionate about.
           </p>
           <a 
-            href="mailto:careers@phenoxis.com?subject=General Application" 
-            className="btn border border-app px-8 py-3 bg-surface hover:bg-card"
+            href={`mailto:careers.phenoxis@gmail.com?subject=${encodeURIComponent('General Application')}&body=${encodeURIComponent('Hi Phenoxis Team,\n\nI am interested in potential opportunities at Phenoxis. Please find my resume attached.\n\nThank you for your consideration.\n\nBest regards')}`}
+            className="btn border border-border bg-surface hover:bg-card hover:border-primary/30 px-8 py-3 inline-block no-underline text-app transition-all"
+            style={{ textDecoration: 'none' }}
           >
             Send Your Resume
           </a>

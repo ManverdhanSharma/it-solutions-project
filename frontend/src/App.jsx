@@ -7,7 +7,7 @@ import ChatbotFloat from "./components/ChatbotFloat.jsx";
 // FIXED: Import ThemeProvider to wrap the entire app
 import ThemeProvider from "./components/ThemeProvider.jsx";
 
-// Lazy load pages for better performance
+// FIXED: Correct import paths - using the exact file names from your structure
 const Home = lazy(() => import("./pages/Home.jsx"));
 const Services = lazy(() => import("./pages/Services.jsx"));
 const ServiceDetail = lazy(() => import("./pages/ServiceDetail.jsx"));

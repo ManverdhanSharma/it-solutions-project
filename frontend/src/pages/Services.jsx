@@ -9,7 +9,6 @@ const services = [
     icon: "🌐",
     features: ["React/Next.js Frontend", "Node.js Backend", "Database Integration", "API Development", "Responsive Design"],
     technologies: ["React", "Node.js", "MongoDB", "PostgreSQL", "JavaScript", "TypeScript"],
-    startingPrice: "₹25,000"
   },
   { 
     slug: "ai-solutions", 
@@ -18,7 +17,7 @@ const services = [
     icon: "🤖",
     features: ["RAG Systems", "Chatbot Development", "Process Automation", "Machine Learning Models", "Data Analysis"],
     technologies: ["Python", "TensorFlow", "OpenAI", "LangChain", "FastAPI", "Streamlit"],
-    startingPrice: "₹35,000"
+    
   },
   { 
     slug: "ui-ux-design", 
@@ -27,7 +26,7 @@ const services = [
     icon: "🎨",
     features: ["User Research", "Wireframing", "Prototyping", "Design Systems", "Mobile Design"],
     technologies: ["Figma", "Adobe XD", "Sketch", "InVision", "Principle", "Framer"],
-    startingPrice: "₹15,000"
+    
   },
   { 
     slug: "digital-marketing", 
@@ -36,7 +35,7 @@ const services = [
     icon: "📈",
     features: ["SEO Optimization", "Content Strategy", "Social Media Marketing", "Analytics Setup", "Conversion Optimization"],
     technologies: ["Google Analytics", "SEMrush", "Ahrefs", "Facebook Ads", "Google Ads", "Mailchimp"],
-    startingPrice: "₹20,000"
+    
   }
 ];
 
@@ -121,9 +120,7 @@ export default function Services() {
                       <h3 className="text-2xl font-bold text-app group-hover:text-primary transition-colors">
                         {service.title}
                       </h3>
-                      <p className="text-primary font-semibold text-lg">
-                        Starting from {service.startingPrice}
-                      </p>
+                      
                     </div>
                   </div>
                 </div>
