@@ -7,10 +7,14 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/api": {
-        target: "https://phenoxis-backend.onrender.com", // ✅ Your actual backend URL
+        target: "https://phenoxis-backend.onrender.com",
         changeOrigin: true,
         secure: true
       }
     }
+  },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets'
   }
 });
