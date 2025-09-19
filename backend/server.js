@@ -321,15 +321,15 @@ app.post("/api/contact", async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
     // Send email to you
     await transporter.sendMail({
       from: `"${name}" <${email}>`,
-      to: process.env.MAIL_USER,
+      to: process.env.EMAIL_USER,
       subject: `New Inquiry from ${name}${company ? " (" + company + ")" : ""}`,
       text: `
 New contact form submission:
@@ -344,7 +344,7 @@ ${message}
 
     // Send confirmation email to user
     await transporter.sendMail({
-      from: `"Phenoxis Team" <${process.env.MAIL_USER}>`,
+      from: `"Phenoxis Team" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "We received your message!",
       text: `Hello ${name},
@@ -381,15 +381,15 @@ app.get("/api/test-mail", async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
     // Send a test email to yourself
     const info = await transporter.sendMail({
-      from: `"Phenoxis Backend Test" <${process.env.MAIL_USER}>`,
-      to: process.env.MAIL_USER, // send to your own inbox
+      from: `"Phenoxis Backend Test" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER, // send to your own inbox
       subject: "✅ Nodemailer Test Email",
       text: "This is a test email from your Phenoxis backend to confirm Nodemailer setup is working.",
     });
