@@ -10,17 +10,10 @@ export default function Contact() {
   const [loading, setLoading] = useState(false);
 
   // Dynamically pick backend URL
-  const getApiUrl = () => {
-    const hostname = window.location.hostname;
+const getApiUrl = () => {
+  return "https://phenoxis-backend.onrender.com/api/contact"; // ✅ Always use this
+};
 
-    if (hostname.includes("localhost")) {
-      return "http://localhost:8081/api/contact"; // local dev
-    }
-    if (hostname.includes("phenoxis.com")) {
-      return "https://phenoxis.com/api/contact"; // production
-    }
-    return "https://phenoxis-backend.onrender.com/api/contact"; // fallback (Render)
-  };
 
   const handleInputChange = (e) => {
     setFormData({
