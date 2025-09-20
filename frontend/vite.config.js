@@ -16,5 +16,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsDir: 'assets'
-  }
+  },
+  // Ensure public directory files (including _redirects) are copied to dist
+  publicDir: 'public'
 });
