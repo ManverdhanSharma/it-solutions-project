@@ -1,4 +1,10 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /api/
 
 Sitemap: https://phenoxis.com/sitemap.xml
+
+Allow: /favicon.ico
+Allow: /static/
+Allow: /*.css
+Allow: /*.js
