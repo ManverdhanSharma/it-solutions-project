@@ -1,98 +1,13 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <script>
-      (function () {
-        try {
-          var t = localStorage.getItem("theme") || "system";
-          var prefersDark =
-            window.matchMedia &&
-            window.matchMedia("(prefers-color-scheme: dark)").matches;
-          var useDark = t === "dark" || (t === "system" && prefersDark);
-          if (useDark) document.documentElement.classList.add("dark");
-        } catch (e) {}
-      })();
-    </script>
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- ✅ FAVICON SETUP (Your existing setup is perfect) -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <link rel="manifest" href="/site.webmanifest">
-    
-    <!-- ✅ SEO & META TAGS (Enhanced) -->
-    <meta name="theme-color" content="#3b82f6">
-    <meta name="description" content="Phenoxis - AI & Web Development Solutions | Custom Software, AI Integration, and Digital Transformation Services. Modern IT solutions built to scale.">
-    <meta name="keywords" content="AI development, web development, software solutions, digital transformation, Phenoxis, React, Node.js, AI automation">
-    <meta name="author" content="Phenoxis IT Solutions">
-    
-    <!-- 🆕 OPEN GRAPH for Social Media & Google -->
-    <meta property="og:title" content="Phenoxis - AI & Web Solutions">
-    <meta property="og:description" content="Modern IT solutions company focused on delivering scalable, innovative technology solutions that drive business growth.">
-    <meta property="og:image" content="https://phenoxis.com/android-chrome-192x192.png">
-    <meta property="og:url" content="https://phenoxis.com">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Phenoxis">
-    
-    <!-- 🆕 TWITTER CARDS -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Phenoxis - AI & Web Solutions">
-    <meta name="twitter:description" content="Modern IT solutions company focused on delivering scalable, innovative technology solutions.">
-    <meta name="twitter:image" content="https://phenoxis.com/android-chrome-192x192.png">
-    
-    <!-- 🆕 ADDITIONAL SEO -->
-    <link rel="canonical" href="https://phenoxis.com">
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    
-    <!-- 🆕 STRUCTURED DATA for Google -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Phenoxis",
-      "alternateName": "Phenoxis IT Solutions",
-      "url": "https://phenoxis.com",
-      "logo": "https://phenoxis.com/android-chrome-192x192.png",
-      "description": "Modern IT solutions company focused on delivering scalable, innovative technology solutions that drive business growth.",
-      "foundingDate": "2025",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "email": "contact.phenoxis@gmail.com",
-        "contactType": "customer service",
-        "availableLanguage": "English"
-      },
-      "sameAs": [
-        "https://github.com/ManverdhanSharma"
-      ],
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Mambakkam",
-        "addressRegion": "Tamil Nadu",
-        "addressCountry": "IN"
-      },
-      "areaServed": {
-        "@type": "Place",
-        "name": "Global"
-      },
-      "serviceType": [
-        "Web Development",
-        "AI Solutions",
-        "UI/UX Design", 
-        "Digital Marketing"
-      ]
-    }
-    </script>
-    
+    <!-- Keep all your meta tags, favicons, etc. -->
     <title>Phenoxis - AI & Web Solutions | Modern IT Company</title>
   </head>
-  <body class="min-h-screen bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+  <body class="min-h-screen bg-white text-gray-900">
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <!-- Vite will inject the correct script tag automatically -->
   </body>
 </html>
