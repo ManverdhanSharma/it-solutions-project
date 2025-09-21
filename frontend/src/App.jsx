@@ -1,11 +1,9 @@
 import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
-import Footer from "./components/Footer.jsx";
-import ChatbotFloat from "./components/ChatbotFloat.jsx";
-
-// FIXED: Import ThemeProvider to wrap the entire app
-import ThemeProvider from "./components/ThemeProvider.jsx";
+// import Footer from "./components/Footer.jsx";
+// import ChatbotFloat from "./components/ChatbotFloat.jsx";
+// import ThemeProvider from "./components/ThemeProvider.jsx";
 
 // FIXED: Correct import paths - using the exact file names from your structure
 const Home = lazy(() => import("./pages/Home.jsx"));
@@ -23,15 +21,15 @@ const NotFound = lazy(() => import("./pages/NotFound.jsx"));
 // Enhanced Loading Component
 function Loading() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="text-center space-y-4">
         <div className="relative">
           <div className="w-12 h-12 mx-auto bg-blue-500 rounded-full animate-pulse"></div>
           <div className="absolute inset-0 w-12 h-12 mx-auto border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
         <div className="space-y-2">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Phenoxis</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Loading...</p>
+          <h3 className="text-lg font-semibold text-gray-900">Phenoxis</h3>
+          <p className="text-sm text-gray-600">Loading...</p>
         </div>
       </div>
     </div>
@@ -40,8 +38,8 @@ function Loading() {
 
 function App() {
   return (
-    <ThemeProvider>
-      <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+    // <ThemeProvider>
+      <div className="min-h-screen bg-white text-gray-900">
         <Navbar />
         
         <main className="flex-1">
@@ -62,10 +60,10 @@ function App() {
           </Suspense>
         </main>
         
-        <Footer />
-        <ChatbotFloat />
+        {/* <Footer /> */}
+        {/* <ChatbotFloat /> */}
       </div>
-    </ThemeProvider>
+    // </ThemeProvider>
   );
 }
 
