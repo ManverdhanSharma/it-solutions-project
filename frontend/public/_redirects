@@ -1,0 +1,2 @@
+# Create _redirects file in public folder
+echo "/*    /index.html   200" > frontend/public/_redirects
