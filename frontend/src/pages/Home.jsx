@@ -29,7 +29,7 @@ export default function Home() {
       title: "UI/UX Design",
       description: "User-centered design for digital experiences",
       icon: (
-        <svg className="w-8 h-8 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
         </svg>
       ),
@@ -39,7 +39,7 @@ export default function Home() {
       title: "Digital Marketing",
       description: "Data-driven marketing strategies and campaigns",
       icon: (
-        <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
         </svg>
       ),
@@ -54,7 +54,7 @@ export default function Home() {
       tech: "React • Node.js • AI"
     },
     {
-      title: "AI Dashboard Maker",  
+      title: "AI Dashboard Maker",
       description: "Data visualization tool with AI-powered insights",
       tech: "Python • Streamlit • ML"
     },
@@ -85,267 +85,262 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section - With Animated Background + Floating Icons */}
-      <section className="relative py-12 sm:py-16 lg:py-28 bg-gradient-to-br from-gray-900 to-gray-800 overflow-hidden">
-        {/* Animated Background - Only in Hero */}
+    <div className="overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900">
         <HeroBackground />
+        <div className="absolute inset-0 bg-black/20"></div>
         
-        
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Left Content */}
-            <div className="order-2 lg:order-1 space-y-6 lg:space-y-8">
-              <div className="space-y-4 lg:space-y-6">
-                <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold leading-tight text-white">
-                  Modern IT Solutions
-                  <span className="block text-blue-400">Built to Scale</span>
-                </h1>
-                <p className="text-lg sm:text-xl text-gray-300 max-w-2xl leading-relaxed">
-                  Software development, UX/UI, digital marketing, and AI automation—built to scale with modern technologies and proven methodologies.
-                </p>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 tracking-tight">
+            Modern IT Solutions
+            <br />
+            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Built to Scale
+            </span>
+          </h1>
+          
+          <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
+            Software development, UX/UI, digital marketing, and AI automation—built to scale with modern technologies and proven methodologies.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              to="/contact"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 hover:scale-105 hover:shadow-lg"
+            >
+              Get Started
+            </Link>
+            <Link
+              to="/portfolio"
+              className="border-2 border-white/30 hover:border-white/50 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 hover:bg-white/10"
+            >
+              View Our Work
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto mt-16">
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-yellow-500/20 rounded-lg mb-4">
+                <span className="text-yellow-400 text-2xl">⚡</span>
               </div>
-              
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/contact" className="bg-blue-500 hover:bg-blue-600 text-white px-6 sm:px-8 py-3 sm:py-4 text-base font-semibold rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg text-center">
-                  Get Started
-                </Link>
-                <a href="#portfolio" className="border border-gray-400 text-white hover:bg-white/10 px-6 sm:px-8 py-3 sm:py-4 text-base rounded-lg transition-all duration-300 hover:scale-105 text-center">
-                  View Our Work
-                </a>
-              </div>
-
-              {/* Key Points - Updated Icons */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 pt-6 lg:pt-8">
-                <div className="space-y-2 lg:space-y-3">
-                  <div className="flex items-center space-x-2">
-                    <svg className="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    <h4 className="font-semibold text-white">Fast Delivery</h4>
-                  </div>
-                  <p className="text-sm text-gray-300">Ship reliable software fast with thoughtful UX and measurable growth.</p>
-                </div>
-                <div className="space-y-2 lg:space-y-3">
-                  <div className="flex items-center space-x-2">
-                    <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806-.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                    </svg>
-                    <h4 className="font-semibold text-white">Modern Stack</h4>
-                  </div>
-                  <p className="text-sm text-gray-300">React/Node/Python, cloud-native, RAG/agents for AI workflows.</p>
-                </div>
-              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Fast Delivery</h3>
+              <p className="text-gray-400 text-sm">
+                Ship reliable software fast with thoughtful UX and measurable growth.
+              </p>
             </div>
-
-            {/* Right Image - Mobile Optimized */}
-            <div className="order-1 lg:order-2 lg:pl-8">
-              <div className="relative">
-                <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                  <img 
-                    src={heroImage} 
-                    alt="Modern IT Solutions - Phenoxis"
-                    className="w-full h-48 sm:h-64 md:h-80 lg:h-auto object-cover"
-                    onError={(e) => {
-                      // Fallback gradient if image fails to load
-                      e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'block';
-                    }}
-                  />
-                  {/* Fallback gradient */}
-                  <div 
-                    className="w-full h-48 sm:h-64 md:h-80 lg:h-96 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center"
-                    style={{display: 'none'}}
-                  >
-                    <div className="text-center text-white">
-                      <h3 className="text-2xl font-bold mb-2">Phenoxis</h3>
-                      <p className="text-white/80">Modern IT Solutions</p>
-                    </div>
-                  </div>
-                </div>
-                {/* Decorative elements - Hidden on small screens */}
-                <div className="hidden lg:block absolute -top-4 -right-4 w-24 h-24 bg-blue-400/20 rounded-full blur-xl"></div>
-                <div className="hidden lg:block absolute -bottom-4 -left-4 w-32 h-32 bg-purple-400/20 rounded-full blur-xl"></div>
+            
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-500/20 rounded-lg mb-4">
+                <span className="text-blue-400 text-2xl">🔧</span>
               </div>
+              <h3 className="text-lg font-semibold text-white mb-2">Modern Stack</h3>
+              <p className="text-gray-400 text-sm">
+                React/Node/Python, cloud-native, RAG/agents for AI workflows.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* About Section - Updated Icons */}
-      <section id="about" className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-800">
+      {/* About Section - FIXED DARK MODE */}
+      <section id="about" className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 lg:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-gray-900 dark:text-white">About Phenoxis</h2>
-            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              We're a modern IT solutions company focused on delivering scalable, 
-              innovative technology solutions that drive business growth.
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              About Phenoxis
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              We're a modern IT solutions company focused on delivering scalable, innovative
+              technology solutions that drive business growth.
             </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            <div className="bg-white dark:bg-gray-900 text-center p-6 lg:p-8 rounded-lg shadow-sm magnetic-card">
-              <div className="flex justify-center mb-4 icon-glow">
-                <svg className="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white dark:bg-gray-800 text-center p-6 lg:p-8 rounded-lg shadow-sm magnetic-card">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-lg mb-6">
+                <svg className="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Innovation First</h3>
-              <p className="text-gray-600 dark:text-gray-300">Lean discovery, rapid prototyping, automation-first delivery with cutting-edge technologies.</p>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Rapid Development</h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Lean discovery, rapid prototyping, automation-first delivery with cutting-edge technologies.
+              </p>
             </div>
-            <div className="bg-white dark:bg-gray-900 text-center p-6 lg:p-8 rounded-lg shadow-sm magnetic-card">
-              <div className="flex justify-center mb-4 icon-glow">
-                <svg className="w-12 h-12 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            
+            <div className="bg-white dark:bg-gray-800 text-center p-6 lg:p-8 rounded-lg shadow-sm magnetic-card">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-lg mb-6">
+                <svg className="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Expert Team</h3>
-              <p className="text-gray-600 dark:text-gray-300">Experienced developers, designers, and AI specialists working together to deliver excellence.</p>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Expert Team</h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Experienced developers, designers, and AI specialists working together to deliver excellence.
+              </p>
             </div>
-            <div className="bg-white dark:bg-gray-900 text-center p-6 lg:p-8 rounded-lg shadow-sm magnetic-card">
-              <div className="flex justify-center mb-4 icon-glow">
-                <svg className="w-12 h-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            
+            <div className="bg-white dark:bg-gray-800 text-center p-6 lg:p-8 rounded-lg shadow-sm magnetic-card">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-lg mb-6">
+                <svg className="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 00-2-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Results Driven</h3>
-              <p className="text-gray-600 dark:text-gray-300">Measurable outcomes, continuous improvement, and long-term partnership approach.</p>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Results Driven</h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Measurable outcomes, continuous improvement, and long-term partnership approach.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Services Section - Interactive Cards with Magnetic Effect */}
-      <section id="services" className="py-12 sm:py-16 lg:py-20">
+      {/* Services Section */}
+      <section id="services" className="py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 lg:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Our Services</h2>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              Our Services
+            </h2>
             <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Comprehensive IT solutions tailored to your business needs
             </p>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {services.map((service, i) => (
-              <div 
-                key={i} 
-                className="magnetic-card gradient-border bg-white dark:bg-gray-900 p-6 rounded-lg shadow-sm group cursor-pointer"
-              >
-                <div className="flex justify-center mb-4 group-hover:scale-110 transition-transform duration-300 icon-glow">
-                  {service.icon}
-                </div>
-                <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white text-center group-hover:text-blue-500 transition-colors duration-300">
-                  {service.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm lg:text-base text-center">
-                  {service.description}
-                </p>
-                <ul className="space-y-2">
-                  {service.features.map((feature, idx) => (
-                    <li key={idx} className="text-sm text-gray-600 dark:text-gray-300 flex items-center">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full mr-3 pulse-dot"></span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                
-                {/* Hover Effect Indicator */}
-                <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="text-xs text-blue-500 font-medium text-center">
-                    Learn More →
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {services.map((service, index) => (
+              <div key={index} className="bg-gray-50 dark:bg-gray-900 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow magnetic-card">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0">
+                    {service.icon}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+                      {service.title}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300 mb-4">
+                      {service.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {service.features.map((feature, featureIndex) => (
+                        <span
+                          key={featureIndex}
+                          className="px-3 py-1 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm rounded-full border border-gray-200 dark:border-gray-700"
+                        >
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-
-          <div className="text-center mt-8 lg:mt-12">
-            <Link to="/services" className="bg-blue-500 hover:bg-blue-600 text-white px-6 lg:px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg">
+          
+          <div className="text-center mt-12">
+            <Link
+              to="/services"
+              className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+            >
               View All Services
+              <svg className="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Portfolio Section - Mobile Optimized */}
-      <section id="portfolio" className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-800">
+      {/* Portfolio Preview Section */}
+      <section id="portfolio" className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 lg:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Portfolio</h2>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              Recent Work
+            </h2>
             <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               A few recent projects and experiments showcasing our technical expertise
             </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {portfolioProjects.map((project, i) => (
-              <div key={i} className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 group magnetic-card">
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold group-hover:text-blue-500 transition-colors text-gray-900 dark:text-white">
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {portfolioProjects.map((project, index) => (
+              <div key={index} className="bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden magnetic-card">
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
                     {project.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm lg:text-base">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">
                     {project.description}
                   </p>
-                  <div className="text-sm text-blue-500 font-mono">
+                  <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">
                     {project.tech}
-                  </div>
+                  </p>
                 </div>
               </div>
             ))}
           </div>
-
-          <div className="text-center mt-8 lg:mt-12">
-            <Link to="/portfolio" className="border border-gray-300 dark:border-gray-600 px-6 lg:px-8 py-3 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-all duration-300 hover:scale-105">
-              View Full Portfolio
+          
+          <div className="text-center mt-12">
+            <Link
+              to="/portfolio"
+              className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+            >
+              View Portfolio
+              <svg className="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* FAQ Section - Mobile Optimized */}
-      <section id="faq" className="py-12 sm:py-16 lg:py-20">
+      {/* FAQ Section */}
+      <section id="faq" className="py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-950">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 lg:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-gray-900 dark:text-white">Frequently Asked Questions</h2>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              FAQ
+            </h2>
             <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300">
               Common questions about our services and process
             </p>
           </div>
-
-          <div className="space-y-4 lg:space-y-6">
-            {faqs.map((faq, i) => (
-              <details key={i} className="bg-white dark:bg-gray-900 p-4 lg:p-6 rounded-lg shadow-sm group">
-                <summary className="cursor-pointer font-semibold text-base lg:text-lg text-gray-900 dark:text-white group-hover:text-blue-500 transition-colors">
+          
+          <div className="space-y-8">
+            {faqs.map((faq, index) => (
+              <div key={index} className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 magnetic-card">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                   {faq.question}
-                </summary>
-                <p className="mt-3 lg:mt-4 text-gray-600 dark:text-gray-300 leading-relaxed text-sm lg:text-base">
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">
                   {faq.answer}
                 </p>
-              </details>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section - Mobile Optimized */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-blue-500 text-white">
+      {/* CTA Section */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 lg:mb-6">
-            Ready to Build Something Amazing?
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
+            Ready to Start Your Project?
           </h2>
-          <p className="text-base sm:text-lg lg:text-xl text-white/90 mb-6 lg:mb-8 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
             Tell us about your project and preferred timeline. Let's discuss how we can help bring your vision to life.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/contact" className="bg-white text-blue-500 hover:bg-gray-100 px-6 lg:px-8 py-3 lg:py-4 font-semibold rounded-lg transition-all duration-300 hover:scale-105">
-              Start Your Project
-            </Link>
-            <a href="#services" className="border-2 border-white text-white hover:bg-white hover:text-blue-500 px-6 lg:px-8 py-3 lg:py-4 rounded-lg transition-all duration-300 hover:scale-105">
-              Learn More
-            </a>
-          </div>
+          <Link
+            to="/contact"
+            className="inline-flex items-center px-8 py-4 bg-white text-blue-600 text-lg font-semibold rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            Get Started Today
+            <svg className="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+          </Link>
         </div>
       </section>
     </div>
